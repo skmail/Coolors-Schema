@@ -1,6 +1,5 @@
-
-if(typeof templatUrl == 'undefined'){
-    templatUrl = 'templates/color-pane.html';
+if(typeof templateUrl == 'undefined'){
+    templateUrl = 'templates/color-pane.html';
 }
 
 load(templatUrl,function(xhr){
@@ -200,7 +199,28 @@ load(templatUrl,function(xhr){
             generateRandomMonochromatic();
         }
     });
+
+    var resizingTimeOut = null;
+
+    window.onresize = function(){
+        if (resizingTimeOut != null){
+            clearTimeout(resizingTimeOut);
+        }
+        resizingTimeOut = setTimeout(function(){
+            var panelHeight = window.innerHeight - document.getElementById('header').getBoundingClientRect().height - 5 + 'px';
+            for (var i = 0 ; i < panels.length; i++) {
+                var panel = panels[i];
+                var innerPanel = panel.children[0];
+                panel.style.height = panelHeight;
+                innerPanel.style.height = panelHeight;
+            }
+        }, 500);
+    };
+
 });
+
+
+
 
 
 /**
