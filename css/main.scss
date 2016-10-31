@@ -1,0 +1,373 @@
+*{ -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+@import url('https://fonts.googleapis.com/css?family=Varela+Round');
+body{
+    font-family: 'Varela Round', sans-serif;
+
+}
+
+header{
+    background: #fff;
+    width: 100%;
+    z-index: 4;
+    cursor: default;
+
+    color: #99aac3;
+    padding: 15px;
+}
+[color-pane] {
+    width: 20%;
+    height: 100%;
+    float: left;
+    padding: 0 5px;
+    > div{
+        position: relative;
+        height: 100px;
+        > button{
+            opacity: 0;
+            transition: 0.6s;
+            position: absolute;
+            border:none;
+            margin:auto;
+            display: block;
+            background: none;
+            font-size: 36px;
+            text-align: center;
+            width: 50px;
+            height: 50px;
+            left:50%;
+            margin-left:-25px;
+            color: #fff;
+            &.shades{
+                bottom: 400px;
+            }
+            &.adjust{
+                bottom: 300px;
+            }
+            &:active,
+            &:focus{
+                outline: none;
+            }
+        }
+        &:hover > button{
+            opacity: 0.4;
+            transition: 0.6s;
+            &:hover{
+                opacity: 1;
+                transition: 0.1s;
+            }
+        }
+    }
+
+    .adjust-tab{
+        $width : 250px;
+        box-shadow: rgba(0,0,0,0.04) 0 0 0 1px,rgba(0,0,0,0.1) 0 2px 10px;
+        position: absolute;
+        width: $width;
+        background: #fff;
+        border-radius: 10px;
+        bottom: 360px;
+        margin-left: ($width / -2) ;
+        left:50%;
+        z-index: 5;
+        display: none;
+        padding: 0!important;
+        &.active{
+            display: block;
+        }
+        &:after{
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            margin-left: -8px;
+            border-radius: 0 0 5px 0;
+            width: 17px;
+            height: 17px;
+            background: #fff;
+            transform: rotate(45deg);
+        }
+        .tabs-btns {
+            border-bottom: 1px solid #E8EDF2;
+            height: 45px;
+            text-align: center;
+        }
+        .tabs-btns ul {
+            display: inline-block;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .tabs-btns li {
+            float: left;
+        }
+        .tabs-btns a {
+            font-size: 0.85em;
+            padding: 0 9px;
+            cursor: pointer;
+            display: block;
+            font-weight: 500;
+            height: 45px;
+            line-height: 45px;
+            margin: 0 2px;
+            position: relative;
+            overflow: hidden;
+            color: #9facbd;
+            text-decoration: none;
+            &:hover{
+                color: #3c4859;
+            }
+            &.active{
+                &,&:hover{
+                    color: #0FACF3;
+                }
+
+                &:after{
+                    bottom: 0;
+                }
+            }
+            &:after{
+                content: '';
+                position: absolute;
+                background: #0FACF3;
+                width: 100%;
+                height: 1px;
+                bottom: -5px;
+                left: 0;
+            }
+        }
+        .tab-pane{
+            padding: 25px;
+            float: left;
+            width: 250px;
+            display: none;
+            &.active{
+                display: block;
+            }
+        }
+    }
+}
+
+
+.picking-area{
+    background: red;
+    height: 150px;
+    border-radius: 4px;
+    position: relative;
+    &:before,
+    &:after{
+        border-radius: 4px;
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top:0;
+        left:0;
+    }
+    &:before{
+        background: linear-gradient(right,rgba(255,255,255,0),#fff);
+    }
+    &:after{
+        background: -webkit-linear-gradient(top,transparent,#000);
+    }
+}
+
+.picking-area .picker-handle{
+    $size:25px;
+    width:$size;
+    height: $size;
+    box-shadow: 1px 1px 5px #000;
+    position: absolute;
+    border-radius: 50%;
+    cursor: grab;
+    left:($size / -2);
+    top:($size / -2);
+    background: #fff;
+    z-index:2;
+}
+
+
+
+.color-picker-h{
+
+    margin: 15px auto 0 auto;
+}
+.hue-handle{
+    $size:15px;
+    width:$size;
+    height: $size;
+    box-shadow: 1px 1px 5px #000;
+    position: absolute;
+    border-radius: 50%;
+    cursor: grab;
+    left:($size / -2);
+    top:50%;
+    margin-top:($size / -2);
+    background: #fff;
+}
+
+
+.color-input{
+    margin-bottom: 10px;
+}
+
+.slider-container{
+
+    .slider-controls{
+        margin-top: -15px;
+        position: relative;
+        top:-5px;
+    }
+    button,input{
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        font-size: 12px;
+        float: right;
+    }
+
+    button{
+        background: #fff;
+        border: 1px solid #d3dce6;
+        cursor: pointer;
+        display: inline-block;
+        border-radius: 0 7px 7px 0;
+        height: 20px;
+        width: 20px;
+        line-height: 14px;
+        text-align: center;
+        font-size: 12px;
+        &.slider-dec{
+            border-right: none!important;
+            border-radius: 0;
+        }
+        &:focus{
+            outline: none;
+        }
+        &:active{
+            outline: none;
+            border: 1px solid rgb(48, 149, 255);
+        }
+    }
+    input{
+        width: 40px;
+        border-radius: 7px 0 0 7px!important;
+        float: right;
+        text-align: center;
+        height: 20px;
+        font-size: 12px;
+        border: 1px solid #d3dce6;
+
+        &:focus,&:active{
+            outline: none;
+            border: 1px solid rgb(48, 149, 255);
+        }
+    }
+}
+
+.slider{
+    clear: both;
+    height: 15px;
+    border-radius: 45px;
+    background: #e7e7e7;
+    background:#fff;
+    position: relative;
+    box-shadow: rgba(0,0,0,0.06) 0 0 0 1px inset;
+
+}
+.slider-handle{
+    $size:15px;
+    width:$size;
+    height: $size;
+    box-shadow: 1px 1px 5px #000;
+    position: absolute;
+    border-radius: 50%;
+    cursor: grab;
+    left:($size / -2);
+    top:50%;
+    margin-top:($size / -2);
+    background: #fff;
+}
+
+
+.hex {
+    width: 100%;
+    position: absolute;
+    bottom: 60px;
+    transition: opacity .5s ease-in-out,bottom .3s ease;
+}
+.hex input {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 33px;
+    font-weight: 500;
+    opacity: 0.5;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    transition: opacity .1s ease,color .1s ease,font-size .5s ease,width .5s ease;
+    &:focus,&:active{
+        outline: none;
+    }
+}
+.color-info {
+    width: 100%;
+    position: absolute;
+    bottom: 30px;
+    transition: all .1s ease-in-out,opacity .3s ease;
+    color: #fff;
+    text-transform: uppercase;
+    opacity: 0.5;
+    font-weight: 500;
+    font-size: 11px;
+    text-align: center;
+
+}
+
+[color-pane].light {
+    .option,
+    .color-info,
+    .hex input{
+
+        color: #1F2D3D ;
+    }
+}
+
+.shades-container{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    &.active{
+        display: block;
+    }
+    text-align: center;
+    .shade-item{
+
+        position: relative;
+        > div{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate3d(-50%,-50%,0);
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: 500;
+            opacity: 0.3;
+            transition: all .3s ease;
+            margin-top: 0;
+        }
+        &:hover > div{
+            opacity: 0.8;
+            cursor: pointer;
+        }
+        cursor: pointer;
+        height: (100% / 21);
+        color: #1F2D3D ;
+        &:nth-child(1n+10){
+            color: #fff;
+        }
+    }
+
+}
