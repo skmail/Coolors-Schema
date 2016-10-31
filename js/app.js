@@ -1,5 +1,9 @@
 
-load('templates/color-pane.html',function(xhr){
+if(typeof templatUrl == 'undefined'){
+    templatUrl = 'templates/color-pane.html';
+}
+
+load(templatUrl,function(xhr){
 
     var panels = document.querySelectorAll('[color-pane]');
 
