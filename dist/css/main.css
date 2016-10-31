@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Varela+Round");
 * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   box-sizing: border-box; }
 
 body {
@@ -52,7 +54,8 @@ header {
         -webkit-transition: 0.1s;
         transition: 0.1s; }
   [color-pane] .adjust-tab {
-    box-shadow: rgba(0, 0, 0, 0.04) 0 0 0 1px, rgba(0, 0, 0, 0.1) 0 2px 10px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.04) 0 0 0 1px, rgba(0, 0, 0, 0.1) 0 2px 10px;
+            box-shadow: rgba(0, 0, 0, 0.04) 0 0 0 1px, rgba(0, 0, 0, 0.1) 0 2px 10px;
     position: absolute;
     width: 250px;
     background: #fff;
@@ -76,6 +79,7 @@ header {
       height: 17px;
       background: #fff;
       -webkit-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
               transform: rotate(45deg); }
     [color-pane] .adjust-tab .tabs-btns {
       border-bottom: 1px solid #E8EDF2;
@@ -137,15 +141,19 @@ header {
     top: 0;
     left: 0; }
   .picking-area:before {
+    background: -webkit-gradient(linear, right top, left top, from(rgba(255, 255, 255, 0)), to(#fff));
     background: -webkit-linear-gradient(right, rgba(255, 255, 255, 0), #fff);
-    background: linear-gradient(right, rgba(255, 255, 255, 0), #fff); }
+    background: linear-gradient(to left, rgba(255, 255, 255, 0), #fff); }
   .picking-area:after {
-    background: -webkit-linear-gradient(top, transparent, #000); }
+    background: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#000));
+    background: -webkit-linear-gradient(top, transparent, #000);
+    background: linear-gradient(to bottom, transparent, #000); }
 
 .picking-area .picker-handle {
   width: 25px;
   height: 25px;
-  box-shadow: 1px 1px 5px #000;
+  -webkit-box-shadow: 1px 1px 5px #000;
+          box-shadow: 1px 1px 5px #000;
   position: absolute;
   border-radius: 50%;
   cursor: -webkit-grab;
@@ -161,7 +169,8 @@ header {
 .hue-handle {
   width: 15px;
   height: 15px;
-  box-shadow: 1px 1px 5px #000;
+  -webkit-box-shadow: 1px 1px 5px #000;
+          box-shadow: 1px 1px 5px #000;
   position: absolute;
   border-radius: 50%;
   cursor: -webkit-grab;
@@ -225,12 +234,14 @@ header {
   background: #e7e7e7;
   background: #fff;
   position: relative;
-  box-shadow: rgba(0, 0, 0, 0.06) 0 0 0 1px inset; }
+  -webkit-box-shadow: rgba(0, 0, 0, 0.06) 0 0 0 1px inset;
+          box-shadow: rgba(0, 0, 0, 0.06) 0 0 0 1px inset; }
 
 .slider-handle {
   width: 15px;
   height: 15px;
-  box-shadow: 1px 1px 5px #000;
+  -webkit-box-shadow: 1px 1px 5px #000;
+          box-shadow: 1px 1px 5px #000;
   position: absolute;
   border-radius: 50%;
   cursor: -webkit-grab;
@@ -292,7 +303,7 @@ header {
   .shades-container .shade-item {
     position: relative;
     cursor: pointer;
-    height: 4.7619047619%;
+    height: 4.7619%;
     color: #1F2D3D; }
     .shades-container .shade-item > div {
       position: absolute;

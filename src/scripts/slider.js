@@ -2,13 +2,15 @@ var Slider;
 
 (function(){
 
+    "use strict";
+
     Slider = function (container,options) {
 
         var settings =  this.settings = Utils.extend({
             value : 0,
             max:100,
             controls:true,
-            onChange:function(value){}
+            onChange:function(value){return value;}
         },options);
 
         var self = this;
@@ -39,7 +41,7 @@ var Slider;
 
             input.addEventListener('keyup',function(){
                 var value = parseInt(this.value);
-                if(value == this.value){
+                if(value === this.value){
                     self.update(value);
                 }
             });
@@ -79,14 +81,14 @@ var Slider;
                     self.currentPosition = 0;
                 }
                 if(self.currentPosition > self.bounds.width){
-                    self.currentPosition = self.bounds.width
+                    self.currentPosition = self.bounds.width;
                 }
 
-                self.currentPosition = self.currentPosition >> 0;
+                self.currentPosition = Math.round(self.currentPosition);
 
-                self.handle.style.left = (self.currentPosition - self.handleBounds.width  / 2 >> 0) + 'px';
+                self.handle.style.left = Math.round(self.currentPosition - self.handleBounds.width  / 2) + 'px';
 
-                settings.value = (self.currentPosition / self.bounds.width) * settings.max >> 0;
+                settings.value = Math.round((self.currentPosition / self.bounds.width) * settings.max);
 
                 settings.onChange(settings.value);
 
@@ -124,8 +126,8 @@ var Slider;
      * @param value
      */
     Slider.prototype.move = function(value){
-        this.currentPosition = value / this.settings.max * this.bounds.width >> 0;
-        this.handle.style.left = (this.currentPosition - this.handleBounds.width  / 2 >> 0) + 'px';
+        this.currentPosition = Math.round(value / this.settings.max * this.bounds.width);
+        this.handle.style.left = Math.round(this.currentPosition - this.handleBounds.width  / 2 ) + 'px';
         this.settings.value = value;
         if(this.settings.controls){
             this.input.value = this.settings.value;
@@ -147,7 +149,6 @@ var Slider;
         this.bounds = this.slider.getBoundingClientRect();
         this.handleBounds = this.handle.getBoundingClientRect(); 
         this.move(this.settings.value);
-    }
-
+    };
     
 })();

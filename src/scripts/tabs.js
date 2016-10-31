@@ -2,13 +2,16 @@ var Tabs;
 
 (function(){
 
+    "use strict";
+    
     Tabs = function(element,options){
 
         this.element = element;
 
         var settings = Utils.extend({
             onChange:function(){}
-        },options)
+        },options);
+
         var $this = this;
 
         var tabsButtons = this.element.querySelectorAll(' .tabs-btns > ul > li > a');
@@ -21,7 +24,7 @@ var Tabs;
                 Utils.addClass(tabButton,'active');
                 var tabName = this.getAttribute('data-tab');
                 Utils.each($this.element.querySelectorAll(' .tab-pane '),function(index,tabPane){
-                    if(tabPane.getAttribute('data-tab') == tabName){
+                    if(tabPane.getAttribute('data-tab') === tabName){
                         Utils.addClass(tabPane,'active');
                         Utils.addClass(element,'active');
                         settings.onChange();

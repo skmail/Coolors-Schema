@@ -1,51 +1,59 @@
-if(typeof templateUrl == 'undefined'){
-    templateUrl = 'templates/color-pane.html';
-}
+(function(){
+    "use strict";
 
-load(templateUrl,function(xhr){
 
-    var panels = document.querySelectorAll('[color-pane]');
+    var colorPanels = document.getElementById('color-panels');
+    var templateUrl = '';
 
-    var adjustTabs;
+    if(colorPanels && colorPanels.getAttribute('data-template-url')){
+        templateUrl = colorPanels.getAttribute('data-template-url');
+    }else{
+        templateUrl = 'templates/color-pane.html';
+    }
+    
+    load(templateUrl,function(xhr){
 
-    var pickers = [];
+        var panels = document.querySelectorAll('[color-pane]');
 
-    var panelHeight = window.innerHeight - document.getElementById('header').getBoundingClientRect().height - 5 + 'px';
+        var adjustTabs;
 
-    var refreshPicker = function(picker){
+        var pickers = [];
 
-        picker.refreshSliders();
+        var panelHeight = window.innerHeight - document.getElementById('header').getBoundingClientRect().height - 5 + 'px';
 
-        // Refresh HSV sliders
-        picker.hsvSliders.h.refresh();
-        picker.hsvSliders.s.refresh();
-        picker.hsvSliders.v.refresh();
+        var refreshPicker = function(picker){
 
-        // Refresh RGB sliders
-        picker.rgbSliders.r.refresh();
-        picker.rgbSliders.g.refresh();
-        picker.rgbSliders.b.refresh();
+            picker.refreshSliders();
 
-        // Refresh CMYK sliders
-        picker.cmykSliders.c.refresh();
-        picker.cmykSliders.m.refresh();
-        picker.cmykSliders.y.refresh();
-        picker.cmykSliders.k.refresh();
+            // Refresh HSV sliders
+            picker.hsvSliders.h.refresh();
+            picker.hsvSliders.s.refresh();
+            picker.hsvSliders.v.refresh();
 
-        // Refresh picker
-        picker.pickerHandleBounds = picker.pickerHandle.getBoundingClientRect();
-        picker.pickingAreaBounds = picker.pickingArea.getBoundingClientRect();
+            // Refresh RGB sliders
+            picker.rgbSliders.r.refresh();
+            picker.rgbSliders.g.refresh();
+            picker.rgbSliders.b.refresh();
 
-        picker.refreshPicker();
-        picker.pickerHueSlider.refresh();
-        picker.updateGradients();
-    };
+            // Refresh CMYK sliders
+            picker.cmykSliders.c.refresh();
+            picker.cmykSliders.m.refresh();
+            picker.cmykSliders.y.refresh();
+            picker.cmykSliders.k.refresh();
 
-    for(var panelIndex = 0 ; panelIndex < panels.length ; panelIndex++){
+            // Refresh picker
+            picker.pickerHandleBounds = picker.pickerHandle.getBoundingClientRect();
+            picker.pickingAreaBounds = picker.pickingArea.getBoundingClientRect();
 
-        (function(){
+            picker.refreshPicker();
+            picker.pickerHueSlider.refresh();
+            picker.updateGradients();
+        };
+
+        var renderPanel = function(panelIndex){
 
             var panel = panels[panelIndex];
+
 
             panel.innerHTML = xhr.responseText;
 
@@ -53,8 +61,8 @@ load(templateUrl,function(xhr){
 
             panel.style.height = panelHeight;
             innerPanel.style.height = panelHeight;
-             var picker;
-            
+            var picker;
+
             var hexInput = panel.querySelector('.hex > input');
             var cmykInfo = panel.querySelector('.color-info-cmyk');
 
@@ -71,7 +79,7 @@ load(templateUrl,function(xhr){
                 Utils.inputSelectionRange(this,1,7);
             });
 
-            hexInput.addEventListener('keyup',function(e){
+            hexInput.addEventListener('keyup',function(event){
                 var inp = String.fromCharCode(event.keyCode);
                 if (/[a-zA-Z0-9]/.test(inp) || event.keyCode == 8 || event.keyCode == 46){
                     picker.updateFromHex(this.value);
@@ -126,7 +134,7 @@ load(templateUrl,function(xhr){
                     adjustTabs = document.querySelectorAll('.adjust-tab');
                 }
                 Utils.each(adjustTabs,function(index,element){
-                   Utils.removeClass(element,'active');
+                    Utils.removeClass(element,'active');
                 });
                 Utils.addClass(adjustTab,'active');
 
@@ -140,7 +148,7 @@ load(templateUrl,function(xhr){
             });
 
 
-            shadesButton.addEventListener('click',function(e){
+            shadesButton.addEventListener('click',function(){
 
                 Utils.addClass(shadesContainer,'active');
 
@@ -158,14 +166,14 @@ load(templateUrl,function(xhr){
 
                 var counter = shadesItems.length - 1;
 
-                var f = 0.09;
+                var factor = 0.09;
 
                 // Shades
-                for(var i = 0; i < 10 ; i++){
-                    var factor = i * f + f;
-                    newRgb.r = Math.round(picker.rgb.r * factor);
-                    newRgb.g = Math.round(picker.rgb.g * factor);
-                    newRgb.b = Math.round(picker.rgb.b * factor);
+                for(var shadeCounter = 0; shadeCounter < 10 ; shadeCounter++){
+                    var shadeFactor = shadeCounter * factor + factor;
+                    newRgb.r = Math.round(picker.rgb.r * shadeFactor);
+                    newRgb.g = Math.round(picker.rgb.g * shadeFactor);
+                    newRgb.b = Math.round(picker.rgb.b * shadeFactor);
                     createElement(shadesItems[counter--],newRgb);
                 }
 
@@ -173,75 +181,74 @@ load(templateUrl,function(xhr){
                 createElement(shadesItems[(shadesItems.length - 1) / 2],picker.rgb);
 
                 // Tint
-                for(var i = 0; i < 10 ; i++ ){
-                    var factor = i * f + f;
-                    newRgb.r = Math.round(picker.rgb.r + (255 - picker.rgb.r) * factor);
-                    newRgb.g = Math.round(picker.rgb.g + (255 - picker.rgb.g) * factor);
-                    newRgb.b = Math.round(picker.rgb.b + (255 - picker.rgb.b) * factor);
-                    createElement(shadesItems[9 - i],newRgb);
+                for(var tintCounter = 0; tintCounter < 10 ; tintCounter++ ){
+                    var tintFactor = tintCounter * factor + factor;
+                    newRgb.r = Math.round(picker.rgb.r + (255 - picker.rgb.r) * tintFactor);
+                    newRgb.g = Math.round(picker.rgb.g + (255 - picker.rgb.g) * tintFactor);
+                    newRgb.b = Math.round(picker.rgb.b + (255 - picker.rgb.b) * tintFactor);
+                    createElement(shadesItems[9 - tintCounter],newRgb);
                     counter--;
                 }
 
             });
 
-        })();
-    }
+        };
 
-    var generateRandomMonochromatic = function(){
-        var h = Math.random();
-        for(var i = 0 ; i < pickers.length; i++){
-            pickers[i].update(new ColorConverter.HSV(h,Math.random() ,Math.random() ));
-            refreshPicker(pickers[i]);
+        for(var panelIndex = 0 ; panelIndex < panels.length ; panelIndex++){
+            renderPanel(panelIndex);
         }
-    };
-    document.addEventListener('keyup',function(e){
-        if(e.keyCode == 32){
-            generateRandomMonochromatic();
-        }
+
+        var generateRandomMonochromatic = function(){
+            var h = Math.random();
+            for(var i = 0 ; i < pickers.length; i++){
+                pickers[i].update(new ColorConverter.HSV(h,Math.random() ,Math.random() ));
+                refreshPicker(pickers[i]);
+            }
+        };
+        document.addEventListener('keyup',function(e){
+            if(e.keyCode == 32){
+                generateRandomMonochromatic();
+            }
+        });
+
+        var resizingTimeOut = null;
+
+        window.onresize = function(){
+            if (resizingTimeOut !== null){
+                clearTimeout(resizingTimeOut);
+            }
+            resizingTimeOut = setTimeout(function(){
+                var panelHeight = window.innerHeight - document.getElementById('header').getBoundingClientRect().height - 5 + 'px';
+                for (var i = 0 ; i < panels.length; i++) {
+                    var panel = panels[i];
+                    var innerPanel = panel.children[0];
+                    panel.style.height = panelHeight;
+                    innerPanel.style.height = panelHeight;
+                }
+            }, 500);
+        };
+
     });
 
-    var resizingTimeOut = null;
 
-    window.onresize = function(){
-        if (resizingTimeOut != null){
-            clearTimeout(resizingTimeOut);
-        }
-        resizingTimeOut = setTimeout(function(){
-            var panelHeight = window.innerHeight - document.getElementById('header').getBoundingClientRect().height - 5 + 'px';
-            for (var i = 0 ; i < panels.length; i++) {
-                var panel = panels[i];
-                var innerPanel = panel.children[0];
-                panel.style.height = panelHeight;
-                innerPanel.style.height = panelHeight;
+    /**
+     * http://blog.garstasio.com/you-dont-need-jquery/ajax/
+     *
+     * @param url
+     * @param callback
+     */
+
+    function load(url, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET',url);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                callback(xhr);
             }
-        }, 500);
-    };
-
-});
-
-
-
-
-
-/**
- * http://blog.garstasio.com/you-dont-need-jquery/ajax/
- *
- * @param url
- * @param callback
- */
-
-function load(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET',url);
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            callback(xhr);
-        }
-        else {
-            alert('Request failed.  Returned status of ' + xhr.status);
-        }
-    };
-    xhr.send();
-}
-
-
+            else {
+                alert('Request failed.  Returned status of ' + xhr.status);
+            }
+        };
+        xhr.send();
+    }
+})();

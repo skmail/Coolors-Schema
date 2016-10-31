@@ -1,8 +1,7 @@
-*{ -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+*{ -moz-box-sizing: border-box; box-sizing: border-box; box-sizing: border-box; }
 @import url('https://fonts.googleapis.com/css?family=Varela+Round');
 body{
     font-family: 'Varela Round', sans-serif;
-
 }
 
 header{
@@ -164,10 +163,10 @@ header{
         left:0;
     }
     &:before{
-        background: linear-gradient(right,rgba(255,255,255,0),#fff);
+        background: linear-gradient(to left,rgba(255,255,255,0),#fff);
     }
     &:after{
-        background: -webkit-linear-gradient(top,transparent,#000);
+        background: linear-gradient(to bottom,transparent,#000);
     }
 }
 

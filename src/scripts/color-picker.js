@@ -1,7 +1,7 @@
 var ColorPicker;
 
 (function () {
-
+    "use strict";
 
     /**
      * Sliding mouse event
@@ -20,7 +20,6 @@ var ColorPicker;
         });
     };
 
-  
 
     /**
      * Init color picker
@@ -45,8 +44,7 @@ var ColorPicker;
                     b: null
                 }
             },
-            onChange: function (value) {
-            }
+            onChange: function (value) {return value;}
         }, options);
 
         this.rgb = ColorConverter.hex2rgb(settings.hex);
@@ -81,14 +79,14 @@ var ColorPicker;
             }
 
             if (x > self.pickingAreaBounds.width) {
-                x = self.pickingAreaBounds.width
+                x = self.pickingAreaBounds.width;
             }
             if (y > self.pickingAreaBounds.height) {
-                y = self.pickingAreaBounds.height
+                y = self.pickingAreaBounds.height;
             }
 
-            self.pickerHandle.style.left = (x - self.pickerHandleBounds.width / 2 >> 0) + 'px';
-            self.pickerHandle.style.top = (y - self.pickerHandleBounds.height / 2 >> 0) + 'px';
+            self.pickerHandle.style.left = Math.round(x - self.pickerHandleBounds.width / 2 ) + 'px';
+            self.pickerHandle.style.top = Math.round(y - self.pickerHandleBounds.height / 2 ) + 'px';
 
             self.hsv.s = x / self.pickingAreaBounds.width;
             self.hsv.v = 1 - (y / self.pickingAreaBounds.height);
@@ -320,8 +318,8 @@ var ColorPicker;
             this.hsv = hsv;
         }
         this.fetchColors();
-        this.pickerHandle.style.left = ((this.hsv.s * this.pickingAreaBounds.width) - this.pickerHandleBounds.width / 2 >> 0) + 'px';
-        this.pickerHandle.style.top = (( (1 - this.hsv.v) * this.pickingAreaBounds.height) - this.pickerHandleBounds.height / 2 >> 0) + 'px';
+        this.pickerHandle.style.left = Math.round((this.hsv.s * this.pickingAreaBounds.width) - this.pickerHandleBounds.width / 2 ) + 'px';
+        this.pickerHandle.style.top = Math.round(( (1 - this.hsv.v) * this.pickingAreaBounds.height) - this.pickerHandleBounds.height / 2) + 'px';
         this.pickerHueSlider.move(Math.round(this.hsv.h * 360) );
         this.settings.onChange.apply(this);
     };
@@ -340,7 +338,7 @@ var ColorPicker;
             ColorConverter.hsv2rgb(new ColorConverter.HSV(180 / 360, this.hsv.s, this.hsv.v)).toString() + ',' +
             ColorConverter.hsv2rgb(new ColorConverter.HSV(240 / 360, this.hsv.s, this.hsv.v)).toString() + ',' +
             ColorConverter.hsv2rgb(new ColorConverter.HSV(300 / 360, this.hsv.s, this.hsv.v)).toString() + ',' +
-            ColorConverter.hsv2rgb(new ColorConverter.HSV(0 / 360, this.hsv.s, this.hsv.v)).toString() + ')'
+            ColorConverter.hsv2rgb(new ColorConverter.HSV(0 / 360, this.hsv.s, this.hsv.v)).toString() + ')';
     };
 
     /**
@@ -351,7 +349,7 @@ var ColorPicker;
     ColorPicker.prototype.getSaturationGradient = function () {
         return ' -webkit-linear-gradient(left,' +
             ColorConverter.hsv2rgb(new ColorConverter.HSV(this.hsv.h, 0, this.hsv.v)).toString() + ',' +
-            ColorConverter.hsv2rgb(new ColorConverter.HSV(this.hsv.h, 1, this.hsv.v)).toString() + ')'
+            ColorConverter.hsv2rgb(new ColorConverter.HSV(this.hsv.h, 1, this.hsv.v)).toString() + ')';
     };
 
     /**
@@ -361,7 +359,7 @@ var ColorPicker;
     ColorPicker.prototype.getBrightnessGradient = function () {
         return ' -webkit-linear-gradient(left,' +
             ColorConverter.hsv2rgb(new ColorConverter.HSV(this.hsv.h, this.hsv.s, 0)).toString() + ',' +
-            ColorConverter.hsv2rgb(new ColorConverter.HSV(this.hsv.h, this.hsv.s, 1)).toString() + ')'
+            ColorConverter.hsv2rgb(new ColorConverter.HSV(this.hsv.h, this.hsv.s, 1)).toString() + ')';
     };
 
     /**
@@ -479,8 +477,8 @@ var ColorPicker;
     ColorPicker.prototype.refreshPicker = function(){
         this.pickerHandleBounds = this.pickerHandle.getBoundingClientRect();
         this.pickingAreaBounds = this.pickingArea.getBoundingClientRect();
-        this.pickerHandle.style.left = ((this.hsv.s * this.pickingAreaBounds.width) - this.pickerHandleBounds.width / 2 >> 0) + 'px';
-        this.pickerHandle.style.top = (( (1 - this.hsv.v) * this.pickingAreaBounds.height) - this.pickerHandleBounds.height / 2 >> 0) + 'px';
+        this.pickerHandle.style.left = Math.round((this.hsv.s * this.pickingAreaBounds.width) - this.pickerHandleBounds.width / 2) + 'px';
+        this.pickerHandle.style.top = Math.round(( (1 - this.hsv.v) * this.pickingAreaBounds.height) - this.pickerHandleBounds.height / 2) + 'px';
     };
 
     /**
@@ -501,5 +499,6 @@ var ColorPicker;
         this.updateGradients();
         this.updateFrom = null;
         this.source = null;
-    }
+    };
+    
 })();
