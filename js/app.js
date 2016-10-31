@@ -2,7 +2,7 @@ if(typeof templateUrl == 'undefined'){
     templateUrl = 'templates/color-pane.html';
 }
 
-load(templatUrl,function(xhr){
+load(templateUrl,function(xhr){
 
     var panels = document.querySelectorAll('[color-pane]');
 
