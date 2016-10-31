@@ -6,12 +6,23 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
+    merge = require('merge-stream'),
     del = require('del');
+
 
 //Styles
 gulp.task('styles', function () {
-    return gulp.src('src/scss/main.scss')
+
+    var scssStream = gulp.src('src/scss/main.scss')
         .pipe(sass({outputStyle: 'expand'}).on('error', sass.logError))
+        .pipe(concat('scss.css'));
+
+    var cssStream = gulp.src(['node_modules/normalize.css/normalize.css'])
+        .pipe(concat('css.css'));
+
+
+    return merge(scssStream, cssStream)
+        .pipe(concat('main.css'))
         .pipe(autoprefixer('last 10 versions', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(gulp.dest('dist/css'))
         .pipe(cssnano())
@@ -56,8 +67,4 @@ gulp.task('app_script', function () {
 // Default task
 gulp.task('default', ['clean'], function() {
     gulp.start('styles', 'scripts','app_script');
-});
-
-gulp.task('watch',function () {
-    gulp.watch(['default']);
 });
